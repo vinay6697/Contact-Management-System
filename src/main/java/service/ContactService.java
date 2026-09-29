@@ -26,6 +26,14 @@ public class ContactService {
 	
 	public void updateContact(int contact_id,String name,String email,String address)
 	{
+		if(contact_id<=0)
+			return ;
+		if(name.isBlank() || name.equals(null))
+			return ;
+		if(email.length()<15 || !(email.contains("@")))
+			return ;
+		if(address==null || address.isBlank())
+			return ;
 		contactDAOImpl.updateContact(contact_id,name,email,address);
 	}
 
