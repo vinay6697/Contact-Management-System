@@ -36,5 +36,13 @@ public class ContactService {
 			return ;
 		contactDAOImpl.updateContact(contact_id,name,email,address);
 	}
+	
+	public Contact findById(int contact_id)
+	{
+		if((contact_id<0) || (contact_id+" ").length()<2)
+			return null;
+		else
+			return contactDAOImpl.findById(contact_id);
+	}
 
 }

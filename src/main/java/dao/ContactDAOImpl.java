@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
@@ -55,6 +56,34 @@ public class ContactDAOImpl implements ContactDAO{
 		}
 		
 		return result;
+	}
+
+	@Override
+	public Contact findById(int id) {
+		Connection connection=DatabaseConnection.getConnection();
+		String findQuery="SELECT * FROM CONTACT_DETAILS WHERE CONTACT_ID=?";
+		Contact contact=null;
+		try {
+			PreparedStatement preparedStatement=connection.prepareStatement(findQuery);
+			
+			preparedStatement.setInt(1, id);
+			
+			ResultSet resultSet=preparedStatement.executeQuery();
+			 contact=new Contact();
+			while(resultSet.next())
+			{
+				contact.setContactId(resultSet.getInt(1));
+				contact.setContactName(resultSet.getString(2));
+				contact.setEmail(resultSet.getString(3));
+				contact.setMobileNumber(resultSet.getLong(4));
+				contact.setAddress(resultSet.getString(5));
+				contact.setCreatedDate(resultSet.getTimestamp(6).toLocalDateTime());
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contact!=null?contact:null;
 	}
 	
 	

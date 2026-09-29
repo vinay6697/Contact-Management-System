@@ -15,6 +15,7 @@ public class ContactManagementSystem {
 		do {
 			System.out.println("Enter 1 to save the contact");
 			System.out.println("Enter 2 to update the contact");
+			System.out.println("Enter 3 to find the contact by id");
 			int choice=sc.nextInt();
 			
 			switch(choice)
@@ -66,6 +67,20 @@ public class ContactManagementSystem {
 				}
 				case 3:
 				{
+					System.out.println("Enter the contact_id");
+					int contact_id=sc.nextInt();
+					Contact contact=contactService.findById(contact_id);
+					if(contact!=null)
+					{
+						System.out.println("id is:\t"+contact.getContactId());
+						System.out.println("name is:\t"+contact.getContactName());
+						System.out.println("email s:\t"+contact.getEmail());
+						System.out.println("mobile is:\t"+contact.getMobileNumber());
+						System.out.println("address is:\t"+contact.getAddress());
+						System.out.println("createdDate is:\t"+contact.getCreatedDate());
+						System.out.println("--------------------------------------");
+					}
+					
 					break;
 				}
 				default:
