@@ -12,7 +12,6 @@ public class Contact {
 	    private LocalDateTime createdDate;
 	    
 		public Contact() {
-			super();
 		}
 
 

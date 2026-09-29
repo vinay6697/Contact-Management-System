@@ -13,13 +13,17 @@ public class ContactManagementSystem {
 		String c="Y";
 		String str="";
 		do {
+			System.out.println("Enter 1 to save the contact");
+			System.out.println("Enter 2 to update the contact");
 			int choice=sc.nextInt();
+			
 			switch(choice)
 			{
 				case 1:
 				{
 					System.out.println("Enter the contact id");
 					int id=sc.nextInt();
+					sc.nextLine();
 					
 					System.out.println("Enter the contact name");
 					String name=sc.nextLine();
@@ -29,6 +33,8 @@ public class ContactManagementSystem {
 					
 					System.out.println("Enter the mobile number");
 					long mobileNumber=sc.nextLong();
+					sc.nextLine();
+					
 					
 					System.out.println("Enter the address");
 					String address=sc.nextLine();
@@ -42,6 +48,20 @@ public class ContactManagementSystem {
 				}
 				case 2:
 				{
+					System.out.println("Enter the Contact id");
+					int contact_id=sc.nextInt();
+					sc.nextLine();
+					
+					System.out.println("Enter the name");
+					String name=sc.nextLine();
+					
+					System.out.println("Enter the email address");
+					String email=sc.nextLine();
+					
+					System.out.println("Enter the address");
+					String address=sc.nextLine();
+					
+					contactService.updateContact(contact_id, name, email, address);;
 					break;
 				}
 				case 3:

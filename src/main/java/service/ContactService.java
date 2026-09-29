@@ -23,5 +23,10 @@ public class ContactService {
 
 	    contactDAOImpl.saveContact(contact);
 	}
+	
+	public void updateContact(int contact_id,String name,String email,String address)
+	{
+		contactDAOImpl.updateContact(contact_id,name,email,address);
+	}
 
 }

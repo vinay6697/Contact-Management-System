@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import entity.Contact;
 import util.DatabaseConnection;
@@ -14,9 +15,16 @@ public class ContactDAOImpl implements ContactDAO{
 		{
 			int result=0;
 			Connection connection=DatabaseConnection.getConnection();
-			String insertQuery="INSERT INTO CONTACT_VALUES(?,?,?,?,?,?,?)";
+			String insertQuery="INSERT INTO CONTACT_DETAILS VALUES(?,?,?,?,?,?)";
 			try {
 				PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
+				
+				preparedStatement.setInt(1, contact.getContactId());
+				preparedStatement.setString(2, contact.getContactName());
+				preparedStatement.setString(3, contact.getEmail());
+				preparedStatement.setLong(4, contact.getMobileNumber());
+				preparedStatement.setString(5, contact.getAddress());
+				preparedStatement.setTimestamp(6,Timestamp.valueOf(contact.getCreatedDate()));
 				
 				result=preparedStatement.executeUpdate();
 			} catch (SQLException e) {
@@ -25,4 +33,29 @@ public class ContactDAOImpl implements ContactDAO{
 			return result;
 		}
 	}
+
+	@Override
+	public int updateContact(int contact_id,String name, String email, String address)
+	{
+		Connection connection=DatabaseConnection.getConnection();
+		int result=0;
+		
+		String insertQuery="UPDATE CONTACT_DETAILS SET CONTACT_NAME=?,EMAIL=?,ADDRESS=? WHERE CONTACT_ID=?";
+		try {
+			PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
+			preparedStatement.setString(1, name);
+			preparedStatement.setString(2, email);
+			preparedStatement.setString(3, address);
+			preparedStatement.setInt(4, contact_id);
+			
+			result=preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
 }
