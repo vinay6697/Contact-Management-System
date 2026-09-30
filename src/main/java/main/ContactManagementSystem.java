@@ -16,6 +16,7 @@ public class ContactManagementSystem {
 			System.out.println("Enter 1 to save the contact");
 			System.out.println("Enter 2 to update the contact");
 			System.out.println("Enter 3 to find the contact by id");
+			System.out.println("Enter 4 to delete the contact by id");
 			int choice=sc.nextInt();
 			
 			switch(choice)
@@ -80,6 +81,18 @@ public class ContactManagementSystem {
 						System.out.println("createdDate is:\t"+contact.getCreatedDate());
 						System.out.println("--------------------------------------");
 					}
+					
+					break;
+				}
+				case 4:
+				{
+					System.out.println("Enter the contact_id");
+					int contact_id=sc.nextInt();
+					int result=contactService.deleteById(contact_id);
+					if(result!=0)
+						System.out.println("Contact deleted successfully");
+					else
+						System.out.println("please provide a proper contact_id");
 					
 					break;
 				}

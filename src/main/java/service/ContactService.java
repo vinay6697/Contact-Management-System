@@ -44,5 +44,13 @@ public class ContactService {
 		else
 			return contactDAOImpl.findById(contact_id);
 	}
+	
+	public int deleteById(int contact_id)
+	{
+		if(contact_id<=0)
+			return 0;
+		else
+			return contactDAOImpl.deleteContact(contact_id);
+	}
 
 }

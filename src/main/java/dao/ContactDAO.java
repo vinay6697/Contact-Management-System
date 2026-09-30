@@ -8,5 +8,7 @@ public interface ContactDAO {
 	
 	public int updateContact(int contact_id, String name, String email, String address);
 	
-	public Contact findById(int id);;
+	public Contact findById(int id);
+	
+	public int deleteContact(int id);
 }

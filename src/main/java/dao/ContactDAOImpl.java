@@ -86,5 +86,18 @@ public class ContactDAOImpl implements ContactDAO{
 		return contact!=null?contact:null;
 	}
 	
-	
+	public int deleteContact(int id)
+	{
+		int result=0;
+		Connection connection=DatabaseConnection.getConnection();
+		 String deleteQuery="DELETE FROM CONTACT_DETAILS WHERE CONTACT_ID=?";
+		try {
+			PreparedStatement preparedStatement=connection.prepareStatement(deleteQuery);
+			preparedStatement.setInt(1, id);
+			result=preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result>0?result:0;
+	}
 }
