@@ -1,6 +1,7 @@
 package main;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Scanner;
 
 import entity.Contact;
@@ -17,6 +18,7 @@ public class ContactManagementSystem {
 			System.out.println("Enter 2 to update the contact");
 			System.out.println("Enter 3 to find the contact by id");
 			System.out.println("Enter 4 to delete the contact by id");
+			System.out.println("Enter 5 to find all the details");
 			int choice=sc.nextInt();
 			
 			switch(choice)
@@ -95,6 +97,21 @@ public class ContactManagementSystem {
 						System.out.println("please provide a proper contact_id");
 					
 					break;
+				}
+				case 5:
+				{
+					List<Contact> contacts=contactService.findAllContacts();
+					
+					for(Contact contact:contacts)
+					{
+						System.out.println("Contact id is \t\t: "+contact.getContactId());
+						System.out.println("Contact name is \t: "+contact.getContactName());
+						System.out.println("Contact email is \t: "+contact.getEmail());
+						System.out.println("Contact mobileNumber is\t: "+contact.getMobileNumber());
+						System.out.println("Contact address is\t: "+contact.getAddress());
+						System.out.println("Contact created date is\t: "+contact.getCreatedDate());
+						System.out.println("---------------------------------");
+					}
 				}
 				default:
 				{

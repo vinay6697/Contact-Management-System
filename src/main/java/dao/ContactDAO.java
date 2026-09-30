@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import entity.Contact;
 
 public interface ContactDAO {
@@ -11,4 +13,6 @@ public interface ContactDAO {
 	public Contact findById(int id);
 	
 	public int deleteContact(int id);
+	
+	public List<Contact> findAllContacts();
 }

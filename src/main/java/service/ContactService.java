@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import dao.ContactDAOImpl;
 import entity.Contact;
 
@@ -51,6 +53,11 @@ public class ContactService {
 			return 0;
 		else
 			return contactDAOImpl.deleteContact(contact_id);
+	}
+	
+	public List<Contact> findAllContacts()
+	{
+		return contactDAOImpl.findAllContacts();
 	}
 
 }

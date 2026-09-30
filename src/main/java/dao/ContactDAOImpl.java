@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import entity.Contact;
 import util.DatabaseConnection;
@@ -99,5 +103,36 @@ public class ContactDAOImpl implements ContactDAO{
 			e.printStackTrace();
 		}
 		return result>0?result:0;
+	}
+
+	@Override
+	public List<Contact> findAllContacts() {
+		Connection connection=DatabaseConnection.getConnection();
+		List<Contact> contacts=new ArrayList<>();
+		String selectQuery="SELECT * FROM CONTACT_DETAILS";
+		try {
+			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			
+			Contact contact=null;
+			while(resultSet.next())
+			{
+				
+				int customer_id=resultSet.getInt(1);
+				String name=resultSet.getString(2);
+				String email=resultSet.getString(3);
+				long mobileNumber=resultSet.getLong(4);
+				String address=resultSet.getString(5);
+				LocalDateTime date=resultSet.getTimestamp(6).toLocalDateTime();
+				
+				contact=new Contact(customer_id,name,email,mobileNumber,address,date);
+				
+				contacts.add(contact);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contacts.size()>0?contacts:null;
 	}
 }
