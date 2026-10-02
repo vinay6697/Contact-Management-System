@@ -34,6 +34,7 @@ public class ContactDAOImpl implements ContactDAO{
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			
 			return result;
 		}
 	}
@@ -57,7 +58,15 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		finally
+		{
+			if(connection!=null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 		return result;
 	}
 
@@ -86,6 +95,15 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally
+		{
+			if(connection!=null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 		return contact!=null?contact:null;
 	}
 	
@@ -100,6 +118,15 @@ public class ContactDAOImpl implements ContactDAO{
 			result=preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		finally
+		{
+			if(connection!=null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 		return result>0?result:0;
 	}
@@ -131,6 +158,15 @@ public class ContactDAOImpl implements ContactDAO{
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		finally
+		{
+			if(connection!=null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 		return contacts.size()>0?contacts:null;
 	}
@@ -166,6 +202,15 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally
+		{
+			if(connection!=null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 		return contacts.size()>0?contacts:null;
 	}
 	
@@ -196,6 +241,15 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally
+		{
+			if(connection!=null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 		return contact!=null?contact:null;
 	}
 
@@ -216,6 +270,38 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally
+		{
+			if(connection!=null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 		return count;
+	}
+
+	public ResultSet sortContactByName()
+	{
+		Connection connection=DatabaseConnection.getConnection();
+		ResultSet resultSet=null;
+		String selectQuery="SELECT * FROM CONTACT_DETAILS ORDER BY CONTACT_NAME";
+		try {
+			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+			resultSet=preparedStatement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(connection !=null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return resultSet;
 	}
 }

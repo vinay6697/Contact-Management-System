@@ -1,5 +1,7 @@
 package main;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -21,7 +23,8 @@ public class ContactManagementSystem {
 			System.out.println("Enter 5 to find all the details");
 			System.out.println("Enter 6 to find contact by name");
 			System.out.println("Enter 7 to find contact by mobile number");
-			System.out.println("Enter 8 to find contact by mobile number");
+			System.out.println("Enter 8 to find count of contacts");
+			System.out.println("Enter 9 to sort contacts by name");
 			int choice=sc.nextInt();
 			
 			switch(choice)
@@ -159,6 +162,25 @@ public class ContactManagementSystem {
 				{
 					int count=contactService.noOfContacts();
 					System.out.println("No of contacts is: "+count);
+					break;
+				}
+				case 9:
+				{
+					ResultSet resultSet=contactService.sortByName();
+					try {
+						while(resultSet.next())
+						{
+							System.out.println("Contact id is \t\t: "+resultSet.getInt(1));
+							System.out.println("Contact name is \t: "+resultSet.getString(2));
+							System.out.println("Contact email is \t: "+resultSet.getString(3));
+							System.out.println("Contact mobileNumber is\t: "+resultSet.getLong(4));
+							System.out.println("Contact address is\t: "+resultSet.getString(5));
+							System.out.println("Contact created date is\t: "+resultSet.getTimestamp(6));
+							System.out.println("---------------------------------");
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					break;
 				}
 				default:
