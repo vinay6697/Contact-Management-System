@@ -20,6 +20,7 @@ public class ContactManagementSystem {
 			System.out.println("Enter 4 to delete the contact by id");
 			System.out.println("Enter 5 to find all the details");
 			System.out.println("Enter 6 to find contact by name");
+			System.out.println("Enter 7 to find contact by mobile number");
 			int choice=sc.nextInt();
 			
 			switch(choice)
@@ -131,6 +132,26 @@ public class ContactManagementSystem {
 						System.out.println("Contact created date is\t: "+contact.getCreatedDate());
 						System.out.println("---------------------------------");
 					}
+					break;
+				}
+				case 7:
+				{
+					System.out.println("Enter the mobile Number");
+					long mobileNumber=sc.nextLong();
+					Contact contact=contactService.findByMobileNumber(mobileNumber);
+					if(contact!=null)
+					{
+							System.out.println("Contact id is \t\t: "+contact.getContactId());
+							System.out.println("Contact name is \t: "+contact.getContactName());
+							System.out.println("Contact email is \t: "+contact.getEmail());
+							System.out.println("Contact mobileNumber is\t: "+contact.getMobileNumber());
+							System.out.println("Contact address is\t: "+contact.getAddress());
+							System.out.println("Contact created date is\t: "+contact.getCreatedDate());
+							System.out.println("---------------------------------");
+					}
+					else
+						System.out.println("mobile Number not found");
+					
 					break;
 				}
 				default:

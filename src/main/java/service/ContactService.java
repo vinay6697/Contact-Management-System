@@ -67,4 +67,13 @@ public class ContactService {
 		else
 			return contactDAOImpl.findContactByName(name);
 	}
+	
+	public Contact findByMobileNumber(long mobileNumber)
+	{
+		String num=mobileNumber+"";
+		if(num.length()<10 || num.charAt(0)<6)
+			return null;
+		else
+			return contactDAOImpl.findContactByNumber(mobileNumber);
+	}
 }

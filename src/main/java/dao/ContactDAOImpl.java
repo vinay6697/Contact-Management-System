@@ -168,5 +168,35 @@ public class ContactDAOImpl implements ContactDAO{
 		}
 		return contacts.size()>0?contacts:null;
 	}
+	
+	public Contact findContactByNumber(long mobileNumber){
+		Connection connection =DatabaseConnection.getConnection();
+		String selectQuery="SELECT * FROM CONTACT_DETAILS WHERE MOBILE_NUMBER=?";
+		Contact contact=null;
+		try {
+			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+			
+			preparedStatement.setLong(1, mobileNumber);
+			
+			ResultSet resultSet=preparedStatement.executeQuery();
+			
+			while(resultSet.next())
+			{
+				
+				int customer_id=resultSet.getInt(1);
+				String contact_name=resultSet.getString(2);
+				String email=resultSet.getString(3);
+				long number=resultSet.getLong(4);
+				String address=resultSet.getString(5);
+				LocalDateTime date=resultSet.getTimestamp(6).toLocalDateTime();
+				
+				contact=new Contact(customer_id,contact_name,email,number,address,date);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contact!=null?contact:null;
+	}
 
 }
