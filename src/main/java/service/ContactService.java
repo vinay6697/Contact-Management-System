@@ -76,4 +76,9 @@ public class ContactService {
 		else
 			return contactDAOImpl.findContactByNumber(mobileNumber);
 	}
+	
+	public int noOfContacts()
+	{
+		return contactDAOImpl.countNoOfContacts();
+	}
 }

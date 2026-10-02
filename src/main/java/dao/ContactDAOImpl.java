@@ -199,4 +199,23 @@ public class ContactDAOImpl implements ContactDAO{
 		return contact!=null?contact:null;
 	}
 
+	@Override
+	public int countNoOfContacts() 
+	{
+		int count=0;
+		Connection connection=DatabaseConnection.getConnection();
+		String selectQuery="SELECT COUNT(*) FROM CONTACT_DETAILS";
+		try {
+			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			if(resultSet.next())
+			{
+				count=resultSet.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 }

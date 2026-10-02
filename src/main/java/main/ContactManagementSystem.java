@@ -21,6 +21,7 @@ public class ContactManagementSystem {
 			System.out.println("Enter 5 to find all the details");
 			System.out.println("Enter 6 to find contact by name");
 			System.out.println("Enter 7 to find contact by mobile number");
+			System.out.println("Enter 8 to find contact by mobile number");
 			int choice=sc.nextInt();
 			
 			switch(choice)
@@ -152,6 +153,12 @@ public class ContactManagementSystem {
 					else
 						System.out.println("mobile Number not found");
 					
+					break;
+				}
+				case 8:
+				{
+					int count=contactService.noOfContacts();
+					System.out.println("No of contacts is: "+count);
 					break;
 				}
 				default:

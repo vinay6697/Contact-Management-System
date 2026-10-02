@@ -19,4 +19,6 @@ public interface ContactDAO {
 	public List<Contact> findContactByName(String name);
 	
 	public Contact findContactByNumber(long mobileNumber);
+	
+	public int countNoOfContacts();
 }
