@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,4 +134,39 @@ public class ContactDAOImpl implements ContactDAO{
 		}
 		return contacts.size()>0?contacts:null;
 	}
+	
+	public List<Contact> findContactByName(String name){
+		Connection connection =DatabaseConnection.getConnection();
+		String selectQuery="SELECT * FROM CONTACT_DETAILS WHERE TRIM(LOWER(CONTACT_NAME)) LIKE ?";
+		Contact contact=new Contact();
+		List<Contact> contacts=new ArrayList<>();
+		try {
+			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+			
+			String cusName="%"+name+"%";
+			preparedStatement.setString(1, cusName.trim().toLowerCase());
+			
+			ResultSet resultSet=preparedStatement.executeQuery();
+			
+			while(resultSet.next())
+			{
+				
+				int customer_id=resultSet.getInt(1);
+				String contact_name=resultSet.getString(2);
+				String email=resultSet.getString(3);
+				long mobileNumber=resultSet.getLong(4);
+				String address=resultSet.getString(5);
+				LocalDateTime date=resultSet.getTimestamp(6).toLocalDateTime();
+				
+				contact=new Contact(customer_id,contact_name,email,mobileNumber,address,date);
+				
+				contacts.add(contact);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contacts.size()>0?contacts:null;
+	}
+
 }

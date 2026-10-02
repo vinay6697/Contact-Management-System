@@ -15,4 +15,6 @@ public interface ContactDAO {
 	public int deleteContact(int id);
 	
 	public List<Contact> findAllContacts();
+
+	public List<Contact> findContactByName(String name);
 }

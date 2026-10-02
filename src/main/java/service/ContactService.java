@@ -59,5 +59,12 @@ public class ContactService {
 	{
 		return contactDAOImpl.findAllContacts();
 	}
-
+	
+	public List<Contact> findContactByName(String name)
+	{
+		if(name.isBlank() || name.equals(null))
+			return null;
+		else
+			return contactDAOImpl.findContactByName(name);
+	}
 }
