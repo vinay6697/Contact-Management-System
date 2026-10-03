@@ -18,9 +18,10 @@ public class ContactDAOImpl implements ContactDAO{
 	public int saveContact(Contact contact) {
 		{
 			int result=0;
-			Connection connection=DatabaseConnection.getConnection();
-			String insertQuery="INSERT INTO CONTACT_DETAILS VALUES(?,?,?,?,?,?)";
-			try {
+			try(Connection connection=DatabaseConnection.getConnection()) 
+			{
+				String insertQuery="INSERT INTO CONTACT_DETAILS VALUES(?,?,?,?,?,?)";
+
 				PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
 				
 				preparedStatement.setInt(1, contact.getContactId());
@@ -34,7 +35,6 @@ public class ContactDAOImpl implements ContactDAO{
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
 			return result;
 		}
 	}
@@ -42,12 +42,12 @@ public class ContactDAOImpl implements ContactDAO{
 	@Override
 	public int updateContact(int contact_id,String name, String email, String address)
 	{
-		Connection connection=DatabaseConnection.getConnection();
 		int result=0;
-		
-		String insertQuery="UPDATE CONTACT_DETAILS SET CONTACT_NAME=?,EMAIL=?,ADDRESS=? WHERE CONTACT_ID=?";
-		try {
-			PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
+		String updateQuery="UPDATE CONTACT_DETAILS SET CONTACT_NAME=?,EMAIL=?,ADDRESS=? WHERE CONTACT_ID=?";
+		try (Connection connection=DatabaseConnection.getConnection();
+			PreparedStatement preparedStatement=connection.prepareStatement(updateQuery);)
+		{
+			;
 			preparedStatement.setString(1, name);
 			preparedStatement.setString(2, email);
 			preparedStatement.setString(3, address);
@@ -58,25 +58,18 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally
-		{
-			if(connection!=null)
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-		}
 		return result;
 	}
 
 	@Override
 	public Contact findById(int id) {
-		Connection connection=DatabaseConnection.getConnection();
+		
 		String findQuery="SELECT * FROM CONTACT_DETAILS WHERE CONTACT_ID=?";
 		Contact contact=null;
-		try {
+		try(Connection connection=DatabaseConnection.getConnection();
 			PreparedStatement preparedStatement=connection.prepareStatement(findQuery);
+				) 
+		{
 			
 			preparedStatement.setInt(1, id);
 			
@@ -95,49 +88,33 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally
-		{
-			if(connection!=null)
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-		}
 		return contact!=null?contact:null;
 	}
 	
 	public int deleteContact(int id)
 	{
 		int result=0;
-		Connection connection=DatabaseConnection.getConnection();
 		 String deleteQuery="DELETE FROM CONTACT_DETAILS WHERE CONTACT_ID=?";
-		try {
-			PreparedStatement preparedStatement=connection.prepareStatement(deleteQuery);
+		try (		Connection connection=DatabaseConnection.getConnection();
+				PreparedStatement preparedStatement=connection.prepareStatement(deleteQuery);
+				)
+		{
 			preparedStatement.setInt(1, id);
 			result=preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			if(connection!=null)
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 		}
 		return result>0?result:0;
 	}
 
 	@Override
 	public List<Contact> findAllContacts() {
-		Connection connection=DatabaseConnection.getConnection();
 		List<Contact> contacts=new ArrayList<>();
 		String selectQuery="SELECT * FROM CONTACT_DETAILS";
-		try {
-			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+		try (Connection connection=DatabaseConnection.getConnection();
+				PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+				)
+		{
 			ResultSet resultSet=preparedStatement.executeQuery();
 			
 			Contact contact=null;
@@ -159,26 +136,17 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally
-		{
-			if(connection!=null)
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-		}
 		return contacts.size()>0?contacts:null;
 	}
 	
 	public List<Contact> findContactByName(String name){
-		Connection connection =DatabaseConnection.getConnection();
 		String selectQuery="SELECT * FROM CONTACT_DETAILS WHERE TRIM(LOWER(CONTACT_NAME)) LIKE ?";
 		Contact contact=new Contact();
 		List<Contact> contacts=new ArrayList<>();
-		try {
+		try (Connection connection =DatabaseConnection.getConnection();
 			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
-			
+			)
+		{
 			String cusName="%"+name+"%";
 			preparedStatement.setString(1, cusName.trim().toLowerCase());
 			
@@ -202,24 +170,16 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally
-		{
-			if(connection!=null)
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-		}
 		return contacts.size()>0?contacts:null;
 	}
 	
 	public Contact findContactByNumber(long mobileNumber){
-		Connection connection =DatabaseConnection.getConnection();
 		String selectQuery="SELECT * FROM CONTACT_DETAILS WHERE MOBILE_NUMBER=?";
 		Contact contact=null;
-		try {
-			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+		try (Connection connection =DatabaseConnection.getConnection();
+				PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+			)
+		{
 			
 			preparedStatement.setLong(1, mobileNumber);
 			
@@ -241,15 +201,6 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally
-		{
-			if(connection!=null)
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-		}
 		return contact!=null?contact:null;
 	}
 
@@ -257,10 +208,12 @@ public class ContactDAOImpl implements ContactDAO{
 	public int countNoOfContacts() 
 	{
 		int count=0;
-		Connection connection=DatabaseConnection.getConnection();
 		String selectQuery="SELECT COUNT(*) FROM CONTACT_DETAILS";
-		try {
-			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+		try 
+			(Connection connection=DatabaseConnection.getConnection();
+				PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+			)
+			{
 			ResultSet resultSet=preparedStatement.executeQuery();
 			if(resultSet.next())
 			{
@@ -270,26 +223,18 @@ public class ContactDAOImpl implements ContactDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally
-		{
-			if(connection!=null)
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-		}
 		return count;
 	}
 
 	public List<Contact> sortContactByName()
 	{
-		Connection connection=DatabaseConnection.getConnection();
 		
 		List<Contact> contacts=new ArrayList<>();
 		String selectQuery="SELECT * FROM CONTACT_DETAILS ORDER BY CONTACT_NAME";
-		try {
-			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+		try (Connection connection=DatabaseConnection.getConnection();
+				PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+			)
+		{
 			ResultSet resultSet=preparedStatement.executeQuery();
 			
 			while(resultSet.next())
@@ -302,15 +247,6 @@ public class ContactDAOImpl implements ContactDAO{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			if(connection !=null)
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 		}
 		return contacts;
 	}

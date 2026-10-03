@@ -17,7 +17,6 @@ public class Contact {
 
 		public Contact(int contactId, String contactName, String email, long mobileNumber, String address,
 				LocalDateTime createdDate) {
-			super();
 			this.contactId = contactId;
 			this.contactName = contactName;
 			this.email = email;
