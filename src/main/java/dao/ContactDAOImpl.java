@@ -282,14 +282,24 @@ public class ContactDAOImpl implements ContactDAO{
 		return count;
 	}
 
-	public ResultSet sortContactByName()
+	public List<Contact> sortContactByName()
 	{
 		Connection connection=DatabaseConnection.getConnection();
-		ResultSet resultSet=null;
+		
+		List<Contact> contacts=new ArrayList<>();
 		String selectQuery="SELECT * FROM CONTACT_DETAILS ORDER BY CONTACT_NAME";
 		try {
 			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
-			resultSet=preparedStatement.executeQuery();
+			ResultSet resultSet=preparedStatement.executeQuery();
+			
+			while(resultSet.next())
+			{
+				Contact contact=new Contact(resultSet.getInt(1),resultSet.getString(2),
+						resultSet.getString(3),resultSet.getLong(4),
+						resultSet.getString(5),resultSet.getTimestamp(6).toLocalDateTime());
+				
+				contacts.add(contact);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -302,6 +312,6 @@ public class ContactDAOImpl implements ContactDAO{
 					e.printStackTrace();
 				}
 		}
-		return resultSet;
+		return contacts;
 	}
 }

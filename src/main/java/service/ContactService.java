@@ -1,6 +1,5 @@
 package service;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 import dao.ContactDAOImpl;
@@ -83,7 +82,7 @@ public class ContactService {
 		return contactDAOImpl.countNoOfContacts();
 	}
 	
-	public ResultSet sortByName()
+	public List<Contact> sortByName()
 	{
 		return contactDAOImpl.sortContactByName();
 	}

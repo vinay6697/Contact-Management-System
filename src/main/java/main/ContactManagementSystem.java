@@ -1,7 +1,5 @@
 package main;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -80,15 +78,7 @@ public class ContactManagementSystem {
 					int contact_id=sc.nextInt();
 					Contact contact=contactService.findById(contact_id);
 					if(contact!=null)
-					{
-						System.out.println("id is:\t"+contact.getContactId());
-						System.out.println("name is:\t"+contact.getContactName());
-						System.out.println("email s:\t"+contact.getEmail());
-						System.out.println("mobile is:\t"+contact.getMobileNumber());
-						System.out.println("address is:\t"+contact.getAddress());
-						System.out.println("createdDate is:\t"+contact.getCreatedDate());
-						System.out.println("--------------------------------------");
-					}
+						System.out.println(contact);
 					
 					break;
 				}
@@ -109,15 +99,7 @@ public class ContactManagementSystem {
 					List<Contact> contacts=contactService.findAllContacts();
 					
 					for(Contact contact:contacts)
-					{
-						System.out.println("Contact id is \t\t: "+contact.getContactId());
-						System.out.println("Contact name is \t: "+contact.getContactName());
-						System.out.println("Contact email is \t: "+contact.getEmail());
-						System.out.println("Contact mobileNumber is\t: "+contact.getMobileNumber());
-						System.out.println("Contact address is\t: "+contact.getAddress());
-						System.out.println("Contact created date is\t: "+contact.getCreatedDate());
-						System.out.println("---------------------------------");
-					}
+						System.out.println(contact);
 					break;
 				}
 				case 6:
@@ -127,15 +109,7 @@ public class ContactManagementSystem {
 					String name=sc.nextLine();
 					List<Contact> contacts=contactService.findContactByName(name);
 					for(Contact contact:contacts)
-					{
-						System.out.println("Contact id is \t\t: "+contact.getContactId());
-						System.out.println("Contact name is \t: "+contact.getContactName());
-						System.out.println("Contact email is \t: "+contact.getEmail());
-						System.out.println("Contact mobileNumber is\t: "+contact.getMobileNumber());
-						System.out.println("Contact address is\t: "+contact.getAddress());
-						System.out.println("Contact created date is\t: "+contact.getCreatedDate());
-						System.out.println("---------------------------------");
-					}
+						System.out.println(contact);
 					break;
 				}
 				case 7:
@@ -144,15 +118,7 @@ public class ContactManagementSystem {
 					long mobileNumber=sc.nextLong();
 					Contact contact=contactService.findByMobileNumber(mobileNumber);
 					if(contact!=null)
-					{
-							System.out.println("Contact id is \t\t: "+contact.getContactId());
-							System.out.println("Contact name is \t: "+contact.getContactName());
-							System.out.println("Contact email is \t: "+contact.getEmail());
-							System.out.println("Contact mobileNumber is\t: "+contact.getMobileNumber());
-							System.out.println("Contact address is\t: "+contact.getAddress());
-							System.out.println("Contact created date is\t: "+contact.getCreatedDate());
-							System.out.println("---------------------------------");
-					}
+						System.out.println(contact);
 					else
 						System.out.println("mobile Number not found");
 					
@@ -166,21 +132,15 @@ public class ContactManagementSystem {
 				}
 				case 9:
 				{
-					ResultSet resultSet=contactService.sortByName();
-					try {
-						while(resultSet.next())
-						{
-							System.out.println("Contact id is \t\t: "+resultSet.getInt(1));
-							System.out.println("Contact name is \t: "+resultSet.getString(2));
-							System.out.println("Contact email is \t: "+resultSet.getString(3));
-							System.out.println("Contact mobileNumber is\t: "+resultSet.getLong(4));
-							System.out.println("Contact address is\t: "+resultSet.getString(5));
-							System.out.println("Contact created date is\t: "+resultSet.getTimestamp(6));
-							System.out.println("---------------------------------");
-						}
-					} catch (SQLException e) {
-						e.printStackTrace();
+					List<Contact> contacts=contactService.sortByName();
+					
+					if(contacts.size()>0)
+					{
+						for(Contact contact:contacts)
+							System.out.println(contact);
 					}
+					else
+						System.out.println("no contact found");
 					break;
 				}
 				default:
@@ -198,5 +158,4 @@ public class ContactManagementSystem {
 		sc.close();
 		System.out.println("Connection closed successfully");
 	}
-
 }

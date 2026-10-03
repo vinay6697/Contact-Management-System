@@ -85,5 +85,18 @@ public class Contact {
 		public void setCreatedDate(LocalDateTime createdDate) {
 			this.createdDate = createdDate;
 		}
+
+
+		@Override
+		public String toString() {
+			return ""+
+			"contact id is\t\t:"+contactId+
+			"\ncontact name is\t\t:"+contactName+
+			"\ncontact email s\t\t:"+email+
+			"\ncontact mobile is\t:"+email+
+			"\ncontact address is\t:"+address+
+			"\ncontact createdDate is\t:"+createdDate+
+			"\n--------------------------------------";
+		}
 	    
 }
