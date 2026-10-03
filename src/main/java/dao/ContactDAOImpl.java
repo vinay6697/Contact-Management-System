@@ -1,5 +1,8 @@
 package dao;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -249,5 +252,38 @@ public class ContactDAOImpl implements ContactDAO{
 			e.printStackTrace();
 		}
 		return contacts;
+	}
+
+	@Override
+	public void writeContactDataToFile(int contactId) {
+		String selectQuery="SELECT * FROM CONTACT_DETAILS WHERE CONTACT_ID=?";
+		
+		try (Connection connection=DatabaseConnection.getConnection();
+			PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);
+			)
+		{
+			preparedStatement.setInt(1, contactId);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			
+			String path="C:\\Java notes\\file.txt";
+			File file=new File(path);
+			FileWriter fileWriter=new FileWriter(file);
+			
+			while(resultSet.next())
+			{
+				fileWriter.write("Id is\t\t\t\t:"+resultSet.getInt(1)+"\n");
+				fileWriter.write("Name is\t\t\t:"+resultSet.getString(2)+"\n");
+				fileWriter.write("Email is\t\t\t:"+resultSet.getString(3)+"\n");
+				fileWriter.write("PhoneNumber is\t:"+resultSet.getLong(4)+"\n");
+				fileWriter.write("Address is\t\t:"+resultSet.getString(5)+"\n");
+				fileWriter.write("Created Date is\t:"+resultSet.getTimestamp(6)+"\n");
+			}
+			fileWriter.flush();
+			System.out.println("Contact data written successfully");
+			fileWriter.close();
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

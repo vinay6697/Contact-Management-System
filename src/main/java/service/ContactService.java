@@ -86,4 +86,12 @@ public class ContactService {
 	{
 		return contactDAOImpl.sortContactByName();
 	}
+	
+	public void saveContactToFile(int contactId)
+	{
+		if(contactId<0)
+			System.out.println("invalid data");
+		else
+			contactDAOImpl.writeContactDataToFile(contactId);
+	}
 }

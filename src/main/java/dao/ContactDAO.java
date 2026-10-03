@@ -21,4 +21,6 @@ public interface ContactDAO {
 	public Contact findContactByNumber(long mobileNumber);
 	
 	public int countNoOfContacts();
+	
+	public void writeContactDataToFile(int contactId);
 }

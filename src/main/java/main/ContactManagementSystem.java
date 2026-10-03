@@ -23,6 +23,7 @@ public class ContactManagementSystem {
 			System.out.println("Enter 7 to find contact by mobile number");
 			System.out.println("Enter 8 to find count of contacts");
 			System.out.println("Enter 9 to sort contacts by name");
+			System.out.println("Enter 10 to write contact data into the file");
 			int choice=sc.nextInt();
 			
 			switch(choice)
@@ -141,6 +142,13 @@ public class ContactManagementSystem {
 					}
 					else
 						System.out.println("no contact found");
+					break;
+				}
+				case 10:
+				{
+					System.out.println("Enter the contact id");
+					int contact_id=sc.nextInt();
+					contactService.saveContactToFile(contact_id);
 					break;
 				}
 				default:
