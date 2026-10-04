@@ -265,7 +265,7 @@ public class ContactDAOImpl implements ContactDAO{
 			preparedStatement.setInt(1, contactId);
 			ResultSet resultSet=preparedStatement.executeQuery();
 			
-			String path="C:\\Java notes\\file.txt";
+			String path="C:\\Java notes\\contactDetails.txt";
 			File file=new File(path);
 			FileWriter fileWriter=new FileWriter(file);
 			
